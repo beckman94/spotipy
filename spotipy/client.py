@@ -860,3 +860,9 @@ class Spotify(object):
 
     def _get_uri(self, type, id):
         return 'spotify:' + type + ":" + self._get_id(type, id)
+    
+    def currently_playing(self):
+        return self._get("me/player/currently-playing")
+    
+    def recently_played(self, limit=50):
+        return self._get("me/player/recently-played", limit=limit)
