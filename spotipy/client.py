@@ -107,7 +107,13 @@ class Spotify(object):
 
         if self.trace_out:
             print(url)
-        r = self._session.request(method, url, headers=headers, proxies=self.proxies, **args)
+            
+        try:
+            r = self._session.request(method, url, headers=headers, proxies=self.proxies, **args)
+        except:
+            self._session = requests.Session()
+            r = self._session.request(method, url, headers=headers, proxies=self.proxies, **args)
+             
 
         if self.trace:  # pragma: no cover
             print()
