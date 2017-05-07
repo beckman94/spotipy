@@ -221,9 +221,9 @@ class SpotifyOAuth(object):
             self._save_token_info(token_info)
             return token_info
         else:
-            token = self.get_cached_token()
-            if token:
-                return token
+            token_info = self.get_cached_token()
+            if token_info:
+                return token_info['access_token']
             else:
                 raise SpotifyOauthError("Automatic getting token from cache failed when manual not possible")
 
