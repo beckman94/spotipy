@@ -7,6 +7,25 @@ from . import oauth2
 import spotipy
 import webbrowser
 
+def save_token_for_user_code(username, scope, code):
+        
+        client_id = os.getenv('SPOTIPY_CLIENT_ID')
+        client_secret = os.getenv('SPOTIPY_CLIENT_SECRET')
+        redirect_uri = os.getenv('SPOTIPY_REDIRECT_URI')
+
+    if not client_id:
+        raise spotipy.SpotifyException(550, -1, 'no credentials set')
+
+    sp_oauth = oauth2.SpotifyOAuth(client_id, client_secret, redirect_uri, 
+        scope=scope, cache_path=".cache-" + username )
+
+    token_info = sp_oauth.get_access_token(code)
+    return token_info
+
+    # try to get a valid token for this user, from the cache,
+    # if not in the cache, the create a new (this will send
+    # the user to a web page where they can authorize this app)
+
 def prompt_for_user_token(username, scope=None, client_id = None,
         client_secret = None, redirect_uri = None):
     ''' prompts the user to login if necessary and returns
